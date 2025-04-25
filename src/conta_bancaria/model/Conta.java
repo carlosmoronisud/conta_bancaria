@@ -62,7 +62,7 @@ public class Conta {
 	public void setSaldo(float saldo) {
 		this.saldo = saldo;
 	}
-	
+	//Sacar
 	public boolean sacar(float valor) {
 		if (this.saldo <  valor) {
 			System.out.println("\n Saldo insuficiente!");
@@ -71,11 +71,11 @@ public class Conta {
 		this.saldo -= valor;
 		return true;
 	}
-	
+	//Depositar
 	public void depositar (float valor) {
 		this.saldo += valor;
 	}
-	
+	//Mostar conta
 	public void visualizar(){
 		
 		NumberFormat nfMoeda = NumberFormat.getCurrencyInstance();
