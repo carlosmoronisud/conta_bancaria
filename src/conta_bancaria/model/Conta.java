@@ -21,6 +21,11 @@ public class Conta {
 		this.titular = titular;
 		this.saldo = saldo;
 	}
+	
+	public Conta() {
+		
+	}
+	
 	//Método Get e Set
 
 	public int getNumero() {
@@ -96,6 +101,7 @@ public class Conta {
 		System.out.println("Tipo da conta: " + this.tipo);
 		System.out.println("Titular da conta: " + this.titular);
 		System.out.println("Saldo da conta: " + nfMoeda.format(this.saldo));
+		
 	}
 
 }
