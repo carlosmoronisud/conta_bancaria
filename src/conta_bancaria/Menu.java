@@ -1,12 +1,11 @@
 package conta_bancaria;
-
-import java.io.IOException;
 import java.util.Scanner;
-
+import conta_bancaria.util.*;
 import conta_bancaria.controller.contaController;
 import conta_bancaria.model.contaCorrente;
 import conta_bancaria.model.contaPoupanca;
-import conta_bancaria.util.Cores;
+import conta_bancaria.util.BancoExceptions;
+
 
 public class Menu {
     public static void main(String[] args) {
@@ -54,7 +53,10 @@ public class Menu {
 			System.out.println("                                                     ");
 			System.out.println("=====================================================" + Cores.TEXT_RESET);
 			
-			opcao = leia.nextInt();
+			
+			opcao = BancoExceptions.lerInteiro(leia);
+			
+			
 				
 			if (opcao == 9) {
 				System.out.println(Cores.TEXT_WHITE_BOLD + "\nBanco Beth 82 - O seu Futuro começa aqui!");
@@ -68,36 +70,36 @@ public class Menu {
 					System.out.println(Cores.TEXT_WHITE + " 1 -> Criar Conta \n\n");
 					
 					System.out.println("Digite o número da agência: ");
-					agencia = leia.nextInt();
+					agencia = BancoExceptions.lerInteiro(leia);
 					
 					System.out.println("Digite o nome do titular:  ");
 					leia.skip("\\R");
 					titular = leia.nextLine();
 					
 					System.out.println("Digite o tipo da conta (1 - cc | 2 - CP:: ");
-					tipo = leia.nextInt();
+					tipo = BancoExceptions.lerInteiro(leia);
 					
 					System.out.println("Digite o saldo inicial da conta: ");
-					saldo = leia.nextInt();
+					saldo = BancoExceptions.lerInteiro(leia);
 					
 					switch(tipo) {
 						case 1 ->{
 									System.out.println("Digite o limite da conta: ");
-									limite = leia.nextFloat();
+									limite = BancoExceptions.lerFloat(leia);
 									contas.cadastrar(new contaCorrente(contas.gerarNumero(),agencia, tipo, titular, saldo, limite));
 								}
 						case 2 ->{
 									System.out.println("Digite o dia do aniversário da conta: ");
-									aniversario = leia.nextInt();
+									aniversario =  BancoExceptions.lerInteiro(leia);
 									contas.cadastrar(new contaCorrente(contas.gerarNumero(),agencia, tipo, titular, saldo, aniversario));
 						}
 					}						
-					keyPress();                    		
+					BancoExceptions.keyPress();               		
 					break;
 				case 2:
 					System.out.println(Cores.TEXT_WHITE + "2 -> Listar todas as Contas \n\n");
 					contas.listarTodas();
-					keyPress(); 
+					BancoExceptions.keyPress();
                     		break;
 				case 3:
 					System.out.println(Cores.TEXT_WHITE + "3 -> Buscar Conta por Numero\n\n");
@@ -106,31 +108,31 @@ public class Menu {
 					
 					contas.procurarPorNumero(numero);
 					
-					keyPress(); 
+					BancoExceptions.keyPress();
                     		break;
 				case 4:
 					System.out.println(Cores.TEXT_WHITE + "4 -> Atualizar Dados da Conta\n\n");
-					keyPress(); 
+					BancoExceptions.keyPress();
                     		break;
 				case 5:
 					System.out.println(Cores.TEXT_WHITE + "5 -> Apagar Conta\n\n");
-					keyPress(); 
+					BancoExceptions.keyPress(); 
                    	 	break;
 				case 6:
 					System.out.println(Cores.TEXT_WHITE + "6 -> Sacar\n\n");
-					keyPress(); 
+					BancoExceptions.keyPress();
                    	 	break;
 				case 7:
 					System.out.println(Cores.TEXT_WHITE + "7 -> Depositar\n\n");
-					keyPress(); 
+					BancoExceptions.keyPress(); 
                     		break;
 				case 8:
 					System.out.println(Cores.TEXT_WHITE + "8 -> Transferir valores entre Contas \n\n");
-					keyPress(); 
+					BancoExceptions.keyPress();
                     		break;
 				default:
 					System.out.println(Cores.TEXT_RED_BOLD + "\nOpção Inválida!\n" + Cores.TEXT_RESET);
-					keyPress(); 
+					BancoExceptions.keyPress(); 
                     		break;
 			}
 		}	
@@ -143,23 +145,5 @@ public class Menu {
 	System.out.println("https://github.com/carlosmoronisud");
 	System.out.println("*********************************************************");
    }
-    public static void keyPress() {
-	    try {
-	        System.out.println(Cores.TEXT_RESET + "\n\nPressione Enter para Continuar...");
-	        
-	        // Lê apenas a tecla Enter e ignora outras teclas
-	        int input;
-	        while ((input = System.in.read()) != '\n') {
-	            // Ignora qualquer outra tecla diferente do Enter
-	            if (input == -1) {
-	                throw new IOException("Entrada encerrada inesperadamente");
-	            }
-	        }
-	        
-	    } catch (IOException e) {
-	        System.err.println("Erro de entrada/saída: " + e.getMessage());
-	    } catch (Exception e) {
-	        System.err.println("Ocorreu um erro ao processar a entrada: " + e.getMessage());
-	    }
-	}
+   
 }
