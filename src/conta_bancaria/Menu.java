@@ -14,9 +14,9 @@ public class Menu {
         
         contaController contas = new contaController();
 		
-		int opcao, numero, agencia, tipo, aniversario;
+		int opcao, numero, agencia, tipo, aniversario, numeroDestino;
 		String titular;
-		float saldo, limite;
+		float saldo, limite, valor;
 		
 		//Contas de teste
 		contaCorrente cc1 = new contaCorrente(contas.gerarNumero(), 123, 1, "João da Silva", 1000.00f, 100.00f);
@@ -45,7 +45,8 @@ public class Menu {
 			System.out.println("            6 -> Sacar                               ");
 			System.out.println("            7 -> Depositar                           ");
 			System.out.println("            8 -> Transferir valores entre Cntas      ");
-			System.out.println("            9 -> Sair                                ");
+			System.out.println("            9 -> Buscar por nome                     ");
+			System.out.println("            10 -> Sair                               ");
 			System.out.println("                                                     ");
 			System.out.println("=========[                                       ]===");
 			System.out.println("                                                     ");
@@ -58,7 +59,7 @@ public class Menu {
 			
 			
 				
-			if (opcao == 9) {
+			if (opcao == 10) {
 				System.out.println(Cores.TEXT_WHITE_BOLD + "\nBanco Beth 82 - O seu Futuro começa aqui!");
 				sobre();
 				leia.close();
@@ -112,24 +113,111 @@ public class Menu {
                     		break;
 				case 4:
 					System.out.println(Cores.TEXT_WHITE + "4 -> Atualizar Dados da Conta\n\n");
+					//Buscar a conta
+					System.out.println("Digite o número da conta: ");
+					numero = leia.nextInt();
+					contas.procurarPorNumero(numero);
+					System.out.println("Deseja atualizar essa conta? (s/n)");
+					String atualizarSim = leia.next();
+					if (atualizarSim.equalsIgnoreCase("s")) {						
+						System.out.println("Digite o número da agência: ");
+						agencia = BancoExceptions.lerInteiro(leia);
+						
+						System.out.println("Digite o nome do titular:  ");
+						leia.skip("\\R");
+						titular = leia.nextLine();
+						
+						System.out.println("Digite o tipo da conta (1 - cc | 2 - CP:: ");
+						tipo = BancoExceptions.lerInteiro(leia);
+						
+						System.out.println("Digite o saldo inicial da conta: ");
+						saldo = BancoExceptions.lerInteiro(leia);
+						
+						switch(tipo) {
+							case 1 ->{
+										System.out.println("Digite o limite da conta: ");
+										limite = BancoExceptions.lerFloat(leia);
+										contas.atualizar(new contaCorrente(numero, agencia, tipo, titular, saldo, limite));
+									}
+							case 2 ->{
+										System.out.println("Digite o dia do aniversário da conta: ");
+										aniversario =  BancoExceptions.lerInteiro(leia);
+										contas.atualizar(new contaCorrente(numero, agencia, tipo, titular, saldo, aniversario));
+							}						
+						}						
+					}
+					
+					
 					BancoExceptions.keyPress();
                     		break;
 				case 5:
 					System.out.println(Cores.TEXT_WHITE + "5 -> Apagar Conta\n\n");
+					System.out.println("Digite o número da conta que deseja apagar: ");
+					numero = leia.nextInt();					
+					contas.deletar(numero);
+					
+					
 					BancoExceptions.keyPress(); 
                    	 	break;
 				case 6:
 					System.out.println(Cores.TEXT_WHITE + "6 -> Sacar\n\n");
+					
+					System.out.println("Digite o valor que deseja sacar: ");
+					valor = leia.nextFloat();
+					
+					System.out.println(Cores.TEXT_WHITE + "Digite o número da conta\n\n");					
+					numero = leia.nextInt();		
+					
+					if( valor >= 0) {						
+						contas.sacar(numero, valor);
+						
+					}				
+					
+					
 					BancoExceptions.keyPress();
                    	 	break;
 				case 7:
 					System.out.println(Cores.TEXT_WHITE + "7 -> Depositar\n\n");
+					System.out.println("Digite o número da conta: ");
+					numero = leia.nextInt();
+					do{
+						System.out.println("Digite o valor do depósito: ");
+						valor = leia.nextFloat();
+					}while(valor <= 0);
+					
+					contas.depositar(numero, valor);
+					
+					
 					BancoExceptions.keyPress(); 
                     		break;
 				case 8:
 					System.out.println(Cores.TEXT_WHITE + "8 -> Transferir valores entre Contas \n\n");
+					System.out.println("Digite o número da conta origem:");
+					numero = leia.nextInt();
+					System.out.println("Digite o numero da conta destino:  ");
+					numeroDestino = leia.nextInt();
+					
+					do {
+						System.out.println("Digite o valor da transferência: ");
+						valor = leia.nextFloat();
+					}while(valor<=0);
+					
+					contas.transferir(numero, numeroDestino, valor);
+					
+					
 					BancoExceptions.keyPress();
                     		break;
+				case 9:
+					System.out.println(Cores.TEXT_WHITE + "9 -> Consultar por nome \n\n");
+					System.out.println(Cores.TEXT_WHITE + " Digite o nome do titular \n\n");
+					leia.skip("//R");
+					titular = leia.nextLine();
+					
+					contas.listarPortitular(titular);
+					
+					BancoExceptions.keyPress();
+                    		break;  		
+                   
 				default:
 					System.out.println(Cores.TEXT_RED_BOLD + "\nOpção Inválida!\n" + Cores.TEXT_RESET);
 					BancoExceptions.keyPress(); 
