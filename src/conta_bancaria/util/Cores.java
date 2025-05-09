@@ -132,5 +132,15 @@ public class Cores {
 
 		public static final String ANSI_WHITE_BACKGROUND_BRIGHT = "\033[0;107m";
 
+		public static String TEXT_RED_BACKGROUND;
+
+		public static String TEXT_GREEN_BACKGROUND;
+
+		public static String TEXT_YELLOW_BACKGROUND;
+
+		public static String TEXT_ORANGE_BOLD;
+
+		public static String TEXT_CYAN_BACKGROUND;
+
 }
  
